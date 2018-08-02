@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Links App</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+
+    <style>
+        .taskDone{
+          text-decoration: line-through;           
+        }
+    </style>
+
+  </head>
+  <body>
+        <script src="js/vue.js"></script>
+    <div class="container">
+       <div id="app" class="col-sm-8 col-lg">
+            <h1>{{ name }}</h1>
+             
+            <form v-on:submit="addTask">
+                <input type="text" v-model="tasks.title" class="form-control" placeholder="Add Task">
+                <input type="submit" value="Add-Task" class="btn btn-block btn-success">
+            </form>
+  
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Done</th>
+                        <th>Task</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     <tr v-for="task in tasks"> 
+                         <td>
+                             <input type="checkbox" v-model="task.done">
+                         </td>
+                         <td :class="{taskDone: task.done}">
+                            {{ task.title }}
+                         </td>
+                         <td>
+                             <button v-on:click="deleteTask(task)" class="btn btn-danger" v-model="task.done">Delete</button>
+                         </td>
+                     </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<script>
+
+var app = new Vue({
+  el: '#app',
+  data: {
+   name: "Task-App with vue",
+   tasks: [
+      {
+        title: "task 1",
+        done:  false,
+      },
+      {
+        title: "task 2",
+        done: true,
+      },
+      {
+        title: "task 3",
+        done: false
+      },
+   ]
+    
+  },
+   methods: {
+      deleteTask: function (task) {
+        this.tasks.splice(this.tasks.indexOf(task), 1)    
+      },
+
+   addTask: function (e) {
+     e.preventDefault();
+     this.tasks.push({
+         title: this.tasks.title,
+         done: false
+     });
+     this.task.title = '';
+    }
+   }
+
+});
+</script>
+
+
+      
+  </body>
+</html>
